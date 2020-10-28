@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+.DS_Store
+public/uploads/*.jpg
+public/images/timelapse/*.jpg
+public/images/*.mp4
+.browse.VC.db*
+package-lock.json
+
+.python-version
+.nvmrc
+*.sublime-workspace
+package.json

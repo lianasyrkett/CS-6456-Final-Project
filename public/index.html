@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>eSense Photo Album</title>
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/panel-style.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap4-toggle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
+    />
+    <link rel="stylesheet" href="css/foundations.min.css" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/smoothie.js"></script>
+    <script src="js/panel-main.js"></script>
+    <script src="js/bootstrap4-toggle.min.js"></script>
+    <script src="js/three.js"></script>
+    <script type="text/javascript" src="js/amplitude.min.js"></script>
+    <script src="js/control-player.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        var folder = "images/";
+
+        $(document).ready(function() {
+            $.ajax({
+                url : folder,
+                success: function (data) {
+                    $(data).find("a").attr("href", function (i, val) {
+                        if( val.match(/\.(jpe?g|png|gif)$/) ) {
+                            $(".column").append( "<img src='.." + val +"' alt='" + val +"' width='160' height='120' class='image'/>" );
+                            var name = val.substring(8);
+                            $(".column").append( "<p>" + name +" </p>" );
+                        }
+
+                        $("column").append( "<span class='stretch'></span>" );
+                    });
+                }
+            });
+
+            $('body').on('click','img',function(){alert('it works');})
+        });
+
+    </script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row top-pane">
+        <div class="col-lg-1"><img src="images/eSense.png" /></div>
+        <div class="col-lg-11" style="padding-top:30px; text-align:left;">
+          eSense Photo Album
+        </div>
+      </div>
+
+      <br /><br /><br /><br />
+
+        <div id="thumbs" class="column">
+
+        </div>
+
+    </div>
+  </body>
+</html>
