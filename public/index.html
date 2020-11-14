@@ -36,67 +36,59 @@
                 success: function (data) {
                     $(data).find("a").attr("href", function (i, val) {
                         if( val.match(/\.(jpe?g|png|gif)$/) ) {
-                            $(".row").append( "<div class='column'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images draggable zoom' onmouseout='normalImage(this)'/> </div>" );
-                            var name = val.substring(8);
-                            <!--$("body").append( "<p>" + name +" </p>" );-->
-                        }
+                            <!--$(".row").append( "<div class='column grow' onmouseover='increaseImage(this)' onmouseout='normalImage(this)'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images draggable wiggle' onmouseover='onHover(this)'/> </div>" );-->
 
-                        <!--$(".column").append( "<span class='stretch'></span>" );-->
+                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images draggable' onmouseover='onHover(this)'/> </div>" );
+                            var name = val.substring(8);
+                        }
                     });
                 }
             });
-
-            <!--$('body').on('click','img',function(){alert('it works');})-->
-
-            // If hovering for two seconds, send alert.
-            var timeoutId;
-            <!--$('body').on('mouseover','img',-->
-              <!--function(){-->
-                <!--alert('wow');-->
-              <!--})-->
-            $(".col-lg-11").mouseover(
-                function () {
-                    timeoutId = window.setTimeout(function(){
-                       alert("I did it!");
-                     });
-                }, function () {
-                    window.clearTimeout(timeoutId);
-                }
-            );
         });
-
-        $(document).ready(function() {
-            $(".hovering").hover(
-
-              function () {
-                  var $this = $(this);
-                  var timer = $this.data("timer") || 0;
-                  clearTimeout(timer);
-                  $this.addClass("door");
-                  timer = setTimeout(function() {
-                      $this.addClass("doorstatic");
-                      alert("please work");
-                  }, 2000); // 2000 is in mil sec eq to 2 sec.
-                  $this.data("timer", timer);
-              }, function () {
-                  var $this = $(this);
-                  var timer = $this.data("timer") || 0;
-                  clearTimeout(timer);
-                  $this.removeClass("door doorstatic");
-              });
-        });
-
 
         var elements = [];
+        var divElements = [];
         var offsetLeft = 0;
         var offsetTop = 0;
         var offsetWidth = 0;
         var offsetHeight = 0;
         var offsetRight = 0;
         var offsetBottom = 0;
-        // Get Image coordinates
+
+        var widthString = 0;
+        var heightString = 0;
+
+        var scaledWidth = 0;
+        var scaledHeight = 0;
+
+        var origin = 0;
+
+        var padding = 100;
+
+        // Get Image coordinates and set their scaled width and height strings
         window.addEventListener('load', function () {
             elements = document.getElementsByClassName("images");
+
+            offsetLeft = elements[0].offsetLeft;
+            offsetTop = elements[0].offsetTop;
+            offsetWidth = elements[0].offsetWidth;
+            offsetHeight = elements[0].offsetHeight;
+            offsetRight = offsetLeft + offsetWidth;
+            offsetBottom = offsetTop + offsetHeight;
+
+            widthString = offsetWidth + "px";
+            heightString = offsetHeight + "px";
+
+            scaledWidth = offsetWidth * 1.5;
+            scaledHeight = offsetHeight * 1.5;
+
+            scaledWidth = scaledWidth + "px";
+            scaledHeight = scaledHeight + "px";
+
+            origin = elements[0].origin;
+
+            divElements = document.getElementsByClassName("column");
+            console.log(divElements);
         });
 
         // Gets current mouse position
@@ -109,35 +101,58 @@
              // clientY gives vertical coordinates
              var y = event.pageY;
 
-             offsetLeft = elements[0].offsetLeft;
-             offsetTop = elements[0].offsetTop;
-             offsetWidth = elements[0].offsetWidth;
-             offsetHeight = elements[0].offsetHeight;
-             offsetRight = offsetLeft + offsetWidth;
-             offsetBottom = offsetTop + offsetHeight;
-
              var temp = elements.item(0);
 
-             if (x > offsetLeft - 50 && x < offsetRight + 50 && y > offsetTop - 50 && y < offsetBottom + 50) {
+             <!--if ( (x < offsetLeft - padding || x > offsetRight + padding) && (y < offsetTop - padding || y > offsetBottom + padding)) {-->
+                <!--padding = 100;-->
+             <!--}-->
 
-                temp.style.transform = 'scale(2)';
-                <!--temp.classList.add('wiggle');-->
+             <!--if (x > offsetLeft - padding && x < offsetRight + padding && y > offsetTop - padding && y < offsetBottom + padding) {-->
 
-             }
+                <!--temp.style.width = scaledWidth;-->
+                <!--temp.style.height = scaledHeight;-->
+             <!--}-->
+
+             <!--if (x < offsetLeft - padding && x > offsetRight + padding && y < offsetTop - padding && y > offsetBottom + padding) {-->
+
+                <!--temp.style.width = widthString;-->
+                <!--temp.style.height = heightString;-->
+             <!--}-->
           }
 
-          // Return to normal size when leave image
-          function normalImage(x) {
+        var timeoutId = null;
+
+        // Return to normal size when leave image
+        function normalImage(x) {
              var temp = elements.item(0);
-             temp.style.transform = 'scale(1)';
-          }
 
-          <!--function wiggle() {-->
-                <!--var temp = elements.item(0);-->
-                <!--temp.style.animationName = 'shake';-->
-                <!--temp.style.animationDuration = '1s';-->
-                <!--temp.style.animationIterationCount = 'infinite';-->
-          <!--}-->
+             temp.style.width = widthString;
+             temp.style.height = heightString;
+
+             <!--padding = 0;-->
+             window.clearTimeout(timeoutId);
+        }
+
+        function increaseImage(x) {
+            var image = elements.item(0);
+            var div = divElements.item(0);
+
+            var divWidth = div.offsetWidth - 50 + "px";
+            var divHeight = div.offsetHeight - 50 + "px";
+
+            image.style.width = divWidth;
+            image.style.height = divHeight;
+        }
+
+        // Set alert after hovering for two seconds
+        var myVar;
+
+        function onHover() {
+          <!--timeoutId = window.setTimeout(function(){-->
+             <!--alert("I did it!");-->
+           <!--}, 1000);-->
+           var temp = 'temp';
+        }
 
     </script>
   </head>
@@ -210,10 +225,6 @@
 
       <br /><br /><br /><br />
 
-      <!--<img src="images/photos/Hardy-Hibiscus.jpg" alt="Hardy Hibiscus" width="160" height="120" class='draggable hovering zoom'>-->
-      <!--<div id="thumbs" class="column">-->
-
-        <!--</div>-->
         <div class="row">
 
         </div>
