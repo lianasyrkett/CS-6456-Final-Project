@@ -291,22 +291,22 @@
 
         function onOpenAlbumHover() {
           timeoutId = window.setTimeout(function(){
-            // var currentDiv = document.getElementById("full-sized-photo");
-            // currentDiv.style.display = "block";   
-
-            // // var copiedImage = currentElement.cloneNode(true); 
-            // // copiedImage.classList.remove("wiggle");  
-
-            // var displayImage = document.createElement("div");
-            // displayImage.setAttribute("class", "large-photo-popup");
-            // displayImage.setAttribute("id", "open-photo-display");
-
-
-            // // displayImage.appendChild(copiedImage);
-
-            // currentDiv.appendChild(displayImage);
             var albumName = currentElement.alt;
-            location.href = '/album?' +albumName;
+            location.href = '/open-album?' + albumName;
+           }, 1000);
+        }
+
+        function onAddToAlbumHover() {
+          timeoutId = window.setTimeout(function(){
+            var albumName = currentElement.alt;
+            location.href = '/add-to-album?' + albumName;
+           }, 1000);
+        }
+
+        function onCreateAnAlbumHover() {
+          timeoutId = window.setTimeout(function(){
+            var pictureName = currentElement.alt;
+            location.href = '/create-an-album?' + pictureName;
            }, 1000);
         }
 
@@ -323,7 +323,7 @@
           <button type="button" class="first-btn">hidden</button>
         </div>
         <div class="popup-column grow" id="create-album">
-          <button type="button" class="first-btn wiggle">Create an Album</button>
+          <button type="button" class="first-btn wiggle" onmouseover='onCreateAnAlbumHover()' onmouseout='clearTime(this)'>Create an Album</button>
         </div>
         <div class="popup-column" id="hidden">
           <button type="button" class="first-btn">hidden</button>
@@ -358,7 +358,7 @@
           <button type="button" class="first-btn">hidden</button>
         </div>
         <div class="popup-column grow" id="add-to-another-album">
-          <button type="button" class="first-btn wiggle">Add to Another Album</button>
+          <button type="button" class="first-btn wiggle" onmouseover='onAddToAlbumHover()' onmouseout='clearTime(this)'>Add to Another Album</button>
         </div>
         <div class="popup-column" id="hidden">
           <button type="button" class="first-btn">hidden</button>

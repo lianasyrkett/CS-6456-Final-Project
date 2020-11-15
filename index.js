@@ -10,8 +10,14 @@ logger.level = 'INFO'
 var app = express();
 var http = require('http').Server(app);
 
-var album = require('./routes/album');
-app.use('/album', album);
+var openAlbum = require('./routes/open-album');
+app.use('/open-album', openAlbum);
+
+var addToAlbum = require('./routes/add-to-album');
+app.use('/add-to-album', addToAlbum);
+
+var createAnAlbum = require('./routes/create-an-album');
+app.use('/create-an-album', createAnAlbum);
 
 app.use(express.static(path.join(__dirname, 'public'), { etag: false, maxAge: 100 }));
 app.use("/images", express.static(path.join(__dirname, "/images")));
