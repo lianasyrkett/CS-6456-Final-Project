@@ -26,25 +26,10 @@
     <script type="text/javascript" src="js/amplitude.min.js"></script>
     <script src="js/control-player.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
+    <script type="module">
+        import interact from 'https://cdn.jsdelivr.net/npm/@interactjs/interactjs/index.js';
+
         var folder = "images/";
-
-        // Get images from folder and add them in rows and columns
-        $(document).ready(function() {
-            $.ajax({
-                url : folder,
-                success: function (data) {
-                    $(data).find("a").attr("href", function (i, val) {
-                        if( val.match(/\.(jpe?g|png|gif)$/) ) {
-                            <!--$(".row").append( "<div class='column grow' onmouseover='increaseImage(this)' onmouseout='normalImage(this)'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images draggable wiggle' onmouseover='onHover(this)'/> </div>" );-->
-
-                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images draggable' onmouseover='onHover(this)'/> </div>" );
-                            var name = val.substring(8);
-                        }
-                    });
-                }
-            });
-        });
 
         var elements = [];
         var divElements = [];
@@ -65,9 +50,27 @@
 
         var padding = 100;
 
-        // Get Image coordinates and set their scaled width and height strings
-        window.addEventListener('load', function () {
+        // Get images from folder and add them in rows and columns
+        $(document).ready(function() {
+            $.ajax({
+                url : folder,
+                success: function (data) {
+                    $(data).find("a").attr("href", function (i, val) {
+                        if( val.match(/\.(jpe?g|png|gif)$/) ) {
+                            // <!--$(".row").append( "<div class='column grow' onmouseover='increaseImage(this)' onmouseout='normalImage(this)'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images draggable wiggle' onmouseover='onHover(this)'/> </div>" );-->
+                            // <!--$(".row").append( "<div class='column grow' onmouseover='onHover(this)' onmousout='clearTime(this)'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images snap grow draggable wiggle' id='grid-snap'/> </div>" );-->
+                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                            var name = val.substring(8);
+                        }
+                    });
+                    callWhag(elements);
+                }
+            });
+        });
+
+        function callWhag(elements) {
             elements = document.getElementsByClassName("images");
+            console.log(elements);
 
             offsetLeft = elements[0].offsetLeft;
             offsetTop = elements[0].offsetTop;
@@ -85,11 +88,8 @@
             scaledWidth = scaledWidth + "px";
             scaledHeight = scaledHeight + "px";
 
-            origin = elements[0].origin;
-
             divElements = document.getElementsByClassName("column");
-            console.log(divElements);
-        });
+        }
 
         // Gets current mouse position
         // TODO: do for all images
@@ -101,75 +101,19 @@
              // clientY gives vertical coordinates
              var y = event.pageY;
 
-             var temp = elements.item(0);
+             // <!--console.log('absolute x', x);-->
+             // <!--console.log('absolute y', y);-->
 
-             <!--if ( (x < offsetLeft - padding || x > offsetRight + padding) && (y < offsetTop - padding || y > offsetBottom + padding)) {-->
-                <!--padding = 100;-->
-             <!--}-->
+             var temp = elements.item(1);
 
-             <!--if (x > offsetLeft - padding && x < offsetRight + padding && y > offsetTop - padding && y < offsetBottom + padding) {-->
+             // <!--console.log(temp.offsetLeft);-->
 
-                <!--temp.style.width = scaledWidth;-->
-                <!--temp.style.height = scaledHeight;-->
-             <!--}-->
-
-             <!--if (x < offsetLeft - padding && x > offsetRight + padding && y < offsetTop - padding && y > offsetBottom + padding) {-->
-
-                <!--temp.style.width = widthString;-->
-                <!--temp.style.height = heightString;-->
-             <!--}-->
+             // if el2 is within region, translate the element until it snaps to el1
           }
 
-        var timeoutId = null;
+      
+    
 
-        // Return to normal size when leave image
-        function normalImage(x) {
-             var temp = elements.item(0);
-
-             temp.style.width = widthString;
-             temp.style.height = heightString;
-
-             <!--padding = 0;-->
-             window.clearTimeout(timeoutId);
-        }
-
-        function increaseImage(x) {
-            var image = elements.item(0);
-            var div = divElements.item(0);
-
-            var divWidth = div.offsetWidth - 50 + "px";
-            var divHeight = div.offsetHeight - 50 + "px";
-
-            image.style.width = divWidth;
-            image.style.height = divHeight;
-        }
-
-        // Set alert after hovering for two seconds
-        var myVar;
-
-        function onHover() {
-          <!--timeoutId = window.setTimeout(function(){-->
-             <!--alert("I did it!");-->
-           <!--}, 1000);-->
-           var temp = 'temp';
-        }
-
-    </script>
-  </head>
-
-  <body onmousemove="coordinate(event)">
-    <div class="container-fluid">
-      <div class="top-pane">
-        <!--<div class="col-lg-1"><img src="images/eSense.png" /></div>-->
-        <div class="col-lg-11" style="padding-top:30px; text-align:left;">
-          eSense Photo Album
-        </div>
-      </div>
-      <script type="module">
-        import interact from
-        'https://cdn.jsdelivr.net/npm/@interactjs/interactjs/index.js'
-
-        // Allows objects to be draggable
         // target elements with the "draggable" class
         interact('.draggable')
           .draggable({
@@ -221,13 +165,240 @@
         // this function is used later in the resizing and gesture demos
         window.dragMoveListener = dragMoveListener
 
-        </script>
+        var example = document.getElementById('grid-snap')
+        var x = 0; var y = 0
 
-      <br /><br /><br /><br />
+        interact(example)
+          .draggable({
+            modifiers: [
+              interact.modifiers.snap({
+                targets: [
+                  interact.createSnapGrid({ x: 30, y: 30 })
+                ],
+                range: Infinity,
+                relativePoints: [ { x: 0, y: 0 } ]
+              }),
+              interact.modifiers.restrict({
+                restriction: example.parentNode,
+                elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
+                endOnly: true
+              })
+            ],
+            inertia: true
+          })
+          .on('dragmove', function (event) {
+            x += event.dx
+            y += event.dy
 
-        <div class="row">
+            event.target.style.webkitTransform =
+            event.target.style.transform =
+                'translate(' + x + 'px, ' + y + 'px)'
+          })
 
+    </script>
+  </head>
+
+  <body>
+  <!-- <body onmousemove="coordinate(event)"> -->
+    <div class="container-fluid">
+      <div class="top-pane">
+        <!--<div class="col-lg-1"><img src="images/eSense.png" /></div>-->
+        <div class="col-lg-11" style="padding-top:30px; text-align:left;">
+          eSense Photo Album
         </div>
+      </div>
+
+      <script>
+        var timeoutId = null;
+        var currentElement = null;
+
+        // Return to normal size when leave image
+        function clearTime(x) {
+             window.clearTimeout(timeoutId);
+        }
+
+        function onHover(x) {
+          timeoutId = window.setTimeout(function(){
+             document.getElementById("photoMenu").style.display = "block";
+             console.log(document.getElementById("photoMenu"));
+             currentElement = x;
+             console.log(currentElement);
+           }, 1000);
+        }
+
+        function onBackHover() {
+          timeoutId = window.setTimeout(function(){
+             document.getElementById("photoMenu").style.display = "none";
+           }, 1000);
+        }
+
+        function onDeleteHover() {
+          timeoutId = window.setTimeout(function(){
+             document.getElementById("deleteMenu").style.display = "block";
+           }, 1000);
+        }
+
+        function onDeleteBackHover() {
+          timeoutId = window.setTimeout(function(){
+            document.getElementById("deleteMenu").style.display = "none";
+           }, 1000);
+        }
+
+        function onConfirmDeleteHover() {
+          timeoutId = window.setTimeout(function(){
+            document.getElementById("photoMenu").style.display = "none";
+            document.getElementById("deleteMenu").style.display = "none";
+            currentElement.parentNode.removeChild(currentElement);
+            currentElement = null;
+
+           }, 1000);
+        }
+
+        function onOpenPhotoHover() {
+          timeoutId = window.setTimeout(function(){
+            var currentDiv = document.getElementById("full-sized-photo");
+            currentDiv.style.display = "block";   
+
+            var copiedImage = currentElement.cloneNode(true); 
+            copiedImage.classList.remove("wiggle");  
+
+            var displayImage = document.createElement("div");
+            displayImage.setAttribute("class", "large-photo-popup");
+            displayImage.setAttribute("id", "open-photo-display");
+
+
+            displayImage.appendChild(copiedImage);
+
+            currentDiv.appendChild(displayImage);
+           }, 1000);
+        }
+
+        function onPhotoBackHover() {
+          timeoutId = window.setTimeout(function(){
+            document.getElementById("full-sized-photo").style.display = "none";
+            document.getElementById("open-photo-display").style.display = "none";
+           }, 1000);
+        }
+
+      </script>
+
+<!-- 
+      <div id="grid-snap" onmouseover='onHover(this)'>
+        Dragging is constrained to the corners of a grid
+      </div>   -->
+
+      <div class="popup" id="photoMenu">
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class="first-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="create-album">
+          <button type="button" class="first-btn wiggle">Create an Album</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="first-btn">hidden</button>
+        </div>
+
+        <div class="popup-column grow" id="open-photo">
+          <button type="button" class="first-btn wiggle" onmouseover='onOpenPhotoHover()' onmouseout='clearTime(this)'>Open Photo</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="first-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="delete-photo">
+          <button type="button" class="first-btn wiggle"  onmouseover='onDeleteHover()' onmouseout='clearTime(this)'>Delete Photo</button>
+        </div>
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class=first-"btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="Back">
+          <button type="button" class="first-btn wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class=first-"btn">hidden</button>
+        </div>
+
+      </div>
+
+      <div class="delete-popup" id="deleteMenu">
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="confirm-deletion">
+          <button type="button" class="second-btn wiggle" onmouseover='onConfirmDeleteHover()' onmouseout='clearTime(this)'>Confirm Deletion</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="Back">
+          <button type="button" class="second-btn wiggle" onmouseover='onDeleteBackHover()' onmouseout='clearTime(this)'>Back</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+      </div>
+
+      <div class="photo-popup" id="full-sized-photo">
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="Back">
+          <button type="button" class="second-btn wiggle" onmouseover='onPhotoBackHover()' onmouseout='clearTime(this)'>Back</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+      </div>
+
+
+      <div class="row">
+
+      </div>
 
     </div>
   </body>

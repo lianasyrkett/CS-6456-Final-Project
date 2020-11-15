@@ -72,10 +72,22 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: white
     }
 
-
-.grow:hover img {
+.grow:hover img{
     min-height: 100%;
     min-width: 100%;
+}
+
+
+
+#grid-snap {
+  width: 40%;
+  border-radius: 4px;
+  padding: 2%;
+  margin: 1rem 0 0 1rem;
+  background-color: #29e;
+  color: #fff;
+  font-size: 1.2em;
+  touch-action: none;
 }
 
 .wiggle:hover {
@@ -85,6 +97,101 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 }
 
+
+/* The popup form - hidden by default */
+.popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 80%;
+  height: 70%;
+  margin-left: 10%;
+  margin-right: 10%;
+  opacity: 0.8;
+  background-color: white;
+}
+
+
+/* Set a style for the submit/login button */
+.popup-column .first-btn {
+  background-color: black;
+  color: white;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75em;
+}
+
+.popup-column {
+  float: left;
+  width: 33.33%;
+  padding: 50px;
+}
+
+.grow:hover button{
+    min-height: 100%;
+    min-width: 100%;
+}
+
+/* The popup form - hidden by default */
+.delete-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 80%;
+  height: 70%;
+  margin-left: 10%;
+  margin-right: 10%;
+  opacity: 1;
+  background-color: black;
+}
+
+.popup-column .second-btn {
+  background-color: gray;
+  color: white;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75em;
+}
+
+#hidden {
+  opacity: 0;
+}
+
+/* The popup form - hidden by default */
+.photo-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 97%;
+  height: 87%;
+  opacity: 1;
+  background-color: black;
+}
+
+.large-photo-popup {
+  display: block;
+  position: fixed;
+  z-index: 9;
+  width: 65%;
+  height: 65%;
+  margin-top: 20px;
+  margin-left: 30%;
+  opacity: 1;
+  background-color: black;
+}
 
 @keyframes shake {
   0% { transform: scale(2) translate(1px, 1px) rotate(0deg); }
