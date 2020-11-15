@@ -62,8 +62,8 @@
                             var name = val.substring(8);
                         }
 
-                        if( val == "/images/Album" ) {
-                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' alt='Album' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                        if( val.includes("Album") ) {
+                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' alt='" + val +"' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
                             var name = val.substring(8);
                         }
                     });
@@ -225,7 +225,7 @@
           timeoutId = window.setTimeout(function(){
             currentElement = x;
             console.log(currentElement);
-            if (currentElement.alt == "Album") {
+            if (currentElement.alt.includes("Album")) {
               document.getElementById("albumMenu").style.display = "block";
             } else {
                document.getElementById("photoMenu").style.display = "block";
@@ -305,7 +305,8 @@
             // // displayImage.appendChild(copiedImage);
 
             // currentDiv.appendChild(displayImage);
-            location.href = '/album';
+            var albumName = currentElement.alt;
+            location.href = '/album?' +albumName;
            }, 1000);
         }
 

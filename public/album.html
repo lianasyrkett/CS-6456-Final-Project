@@ -29,7 +29,8 @@
     <script type="module">
         import interact from 'https://cdn.jsdelivr.net/npm/@interactjs/interactjs/index.js';
 
-        var folder = "images/Album";
+        var queryString = window.location.search;
+        var folder = queryString.substring(2);
 
         var elements = [];
         var divElements = [];
@@ -63,33 +64,9 @@
                             var name = val.substring(8);
                         }
                     });
-                    callWhag(elements);
                 }
             });
-        });
-
-        function callWhag(elements) {
-            elements = document.getElementsByClassName("images");
-
-            offsetLeft = elements[0].offsetLeft;
-            offsetTop = elements[0].offsetTop;
-            offsetWidth = elements[0].offsetWidth;
-            offsetHeight = elements[0].offsetHeight;
-            offsetRight = offsetLeft + offsetWidth;
-            offsetBottom = offsetTop + offsetHeight;
-
-            widthString = offsetWidth + "px";
-            heightString = offsetHeight + "px";
-
-            scaledWidth = offsetWidth * 1.5;
-            scaledHeight = offsetHeight * 1.5;
-
-            scaledWidth = scaledWidth + "px";
-            scaledHeight = scaledHeight + "px";
-
-            divElements = document.getElementsByClassName("column");
-        }
-    
+        });    
     
 
     </script>
@@ -106,7 +83,6 @@
       <script>
 
       	var timeoutId = null;
-      	console.log('here');
 
         // Return to normal size when leave image
         function clearTime(x) {
