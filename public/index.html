@@ -58,12 +58,12 @@
                     $(data).find("a").attr("href", function (i, val) {
                         console.log(val);
                         if( val.match(/\.(jpe?g)$/) ) {
-                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
                             var name = val.substring(8);
                         }
 
                         if( val.includes("Album") ) {
-                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' alt='" + val +"' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
                             var name = val.substring(8);
                         }
                     });
@@ -225,7 +225,7 @@
           timeoutId = window.setTimeout(function(){
             currentElement = x;
             console.log(currentElement);
-            if (currentElement.alt.includes("Album")) {
+            if (currentElement.id.includes("Album")) {
               document.getElementById("albumMenu").style.display = "block";
             } else {
                document.getElementById("photoMenu").style.display = "block";
@@ -291,21 +291,21 @@
 
         function onOpenAlbumHover() {
           timeoutId = window.setTimeout(function(){
-            var albumName = currentElement.alt;
+            var albumName = currentElement.id;
             location.href = '/open-album?' + albumName;
            }, 1000);
         }
 
         function onAddToAlbumHover() {
           timeoutId = window.setTimeout(function(){
-            var albumName = currentElement.alt;
+            var albumName = currentElement.id;
             location.href = '/add-to-album?' + albumName;
            }, 1000);
         }
 
         function onCreateAnAlbumHover() {
           timeoutId = window.setTimeout(function(){
-            var pictureName = currentElement.alt;
+            var pictureName = currentElement.id;
             location.href = '/create-an-album?' + pictureName;
            }, 1000);
         }

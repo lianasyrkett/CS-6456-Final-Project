@@ -62,10 +62,14 @@
                     $(data).find("a").attr("href", function (i, val) {
 
                         if( val.match(/\.(jpe?g)$/) && val != currentPicture ) {
-                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images grid-snap'/> </div>" );
                            
                             var name = val.substring(8);
-                            console.log("added album", val);
+                        }
+
+                        if (val == currentPicture) {
+                          $("body").append( "<div class='column'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images mouse-follower'/> </div>" );
+                            var name = val.substring(8);
                         }
                     });
                 }
@@ -76,7 +80,7 @@
     </script>
   </head>
 
-  <body>
+  <body onmousemove="coordinate(event)">
     <div class="container-fluid">
       <div class="top-pane">
         <div class="col-lg-11" style="padding-top:30px; text-align:left;">
@@ -87,6 +91,8 @@
       <script>
 
       	var timeoutId = null;
+        var queryString = window.location.search;
+        var currentPicture = queryString.substring(1);
 
         // Return to normal size when leave image
         function clearTime(x) {
@@ -97,7 +103,23 @@
           timeoutId = window.setTimeout(function(){
             location.href = '/';
            }, 1000);
-      }
+        }
+
+        function coordinate(event) {
+
+            const movingPicture = document.getElementById(currentPicture);
+            var x;
+            var y;
+
+            if (event) {
+              x = event.pageX;
+              y = event.pageY;
+              movingPicture.style.top = y + 1 + 'px';
+              movingPicture.style.left = x + 'px';
+            }
+
+             // if el2 is within region, translate the element until it snaps to el1
+        }
 
       </script>
 

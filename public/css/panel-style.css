@@ -79,7 +79,7 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 
 
-#grid-snap {
+.grid-snap {
   width: 40%;
   border-radius: 4px;
   padding: 2%;
@@ -88,6 +88,19 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   color: #fff;
   font-size: 1.2em;
   touch-action: none;
+}
+
+.mouse-follower {
+  max-width: 15%;
+  border-radius: 4px;
+  padding: 2%;
+  margin: 1rem 0 0 1rem;
+  background-color: #B0FFAD;
+  color: #fff;
+  font-size: 1.2em;
+  touch-action: none;
+  position: absolute;
+
 }
 
 .wiggle:hover {

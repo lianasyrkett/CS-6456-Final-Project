@@ -31,7 +31,6 @@
 
         var queryString = window.location.search;
         var currentAlbum = queryString.substring(1);
-        console.log("current album", currentAlbum);
 
         var folder = "images/";
 
@@ -62,20 +61,24 @@
                     $(data).find("a").attr("href", function (i, val) {
 
                         if( val.includes("Album") && val != currentAlbum) {
-                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' alt='" + val +"' style='width:50%' class='images' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images grid-snap'/> </div>" );
                             var name = val.substring(8);
-                            console.log("added album", val);
                         }
+
+                        if (val == currentAlbum) {
+                          $("body").append( "<div class='column'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images mouse-follower'/> </div>" );
+                            var name = val.substring(8);
+                        }
+                        
                     });
                 }
             });
-        });    
-    
+        });       
 
     </script>
   </head>
 
-  <body>
+  <body onmousemove="coordinate(event)">
     <div class="container-fluid">
       <div class="top-pane">
         <div class="col-lg-11" style="padding-top:30px; text-align:left;">
@@ -86,6 +89,8 @@
       <script>
 
       	var timeoutId = null;
+        var queryString = window.location.search;
+        var currentAlbum = queryString.substring(1);
 
         // Return to normal size when leave image
         function clearTime(x) {
@@ -96,7 +101,27 @@
           timeoutId = window.setTimeout(function(){
             location.href = '/';
            }, 1000);
-      }
+        }    
+
+        function coordinate(event) {
+
+            const movingAlbum = document.getElementById(currentAlbum);
+            console.log('first x', movingAlbum.offsetLeft);
+            console.log('first y', movingAlbum.offsetTop);
+            var x;
+            var y;
+
+            if (event) {
+              x = event.pageX;
+              y = event.pageY;
+              movingAlbum.style.top = y + 1 + 'px';
+              movingAlbum.style.left = x + 'px';
+              console.log('second x', movingAlbum.offsetLeft);
+              console.log('second y', movingAlbum.offsetTop);
+            }
+
+             // if el2 is within region, translate the element until it snaps to el1
+        }           
 
       </script>
 
