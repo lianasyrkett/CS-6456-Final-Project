@@ -10,6 +10,9 @@ logger.level = 'INFO'
 var app = express();
 var http = require('http').Server(app);
 
+var album = require('./routes/album');
+app.use('/album', album);
+
 app.use(express.static(path.join(__dirname, 'public'), { etag: false, maxAge: 100 }));
 app.use("/images", express.static(path.join(__dirname, "/images")));
 

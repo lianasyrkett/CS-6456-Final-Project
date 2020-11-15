@@ -56,10 +56,14 @@
                 url : folder,
                 success: function (data) {
                     $(data).find("a").attr("href", function (i, val) {
-                        if( val.match(/\.(jpe?g|png|gif)$/) ) {
-                            // <!--$(".row").append( "<div class='column grow' onmouseover='increaseImage(this)' onmouseout='normalImage(this)'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images draggable wiggle' onmouseover='onHover(this)'/> </div>" );-->
-                            // <!--$(".row").append( "<div class='column grow' onmouseover='onHover(this)' onmousout='clearTime(this)'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images snap grow draggable wiggle' id='grid-snap'/> </div>" );-->
+                        console.log(val);
+                        if( val.match(/\.(jpe?g)$/) ) {
                             $(".row").append( "<div class='column grow'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                            var name = val.substring(8);
+                        }
+
+                        if( val == "/images/Album" ) {
+                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' alt='Album' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
                             var name = val.substring(8);
                         }
                     });
@@ -219,16 +223,20 @@
 
         function onHover(x) {
           timeoutId = window.setTimeout(function(){
-             document.getElementById("photoMenu").style.display = "block";
-             console.log(document.getElementById("photoMenu"));
-             currentElement = x;
-             console.log(currentElement);
+            currentElement = x;
+            console.log(currentElement);
+            if (currentElement.alt == "Album") {
+              document.getElementById("albumMenu").style.display = "block";
+            } else {
+               document.getElementById("photoMenu").style.display = "block";
+            }
            }, 1000);
         }
 
         function onBackHover() {
           timeoutId = window.setTimeout(function(){
              document.getElementById("photoMenu").style.display = "none";
+             document.getElementById("albumMenu").style.display = "none";
            }, 1000);
         }
 
@@ -280,6 +288,27 @@
            }, 1000);
         }
 
+
+        function onOpenAlbumHover() {
+          timeoutId = window.setTimeout(function(){
+            // var currentDiv = document.getElementById("full-sized-photo");
+            // currentDiv.style.display = "block";   
+
+            // // var copiedImage = currentElement.cloneNode(true); 
+            // // copiedImage.classList.remove("wiggle");  
+
+            // var displayImage = document.createElement("div");
+            // displayImage.setAttribute("class", "large-photo-popup");
+            // displayImage.setAttribute("id", "open-photo-display");
+
+
+            // // displayImage.appendChild(copiedImage);
+
+            // currentDiv.appendChild(displayImage);
+            location.href = '/album';
+           }, 1000);
+        }
+
       </script>
 
 <!-- 
@@ -287,7 +316,7 @@
         Dragging is constrained to the corners of a grid
       </div>   -->
 
-      <div class="popup" id="photoMenu">
+      <div class="photo-menu-popup" id="photoMenu">
 
         <div class="popup-column" id="hidden">
           <button type="button" class="first-btn">hidden</button>
@@ -307,6 +336,41 @@
         </div>
         <div class="popup-column grow" id="delete-photo">
           <button type="button" class="first-btn wiggle"  onmouseover='onDeleteHover()' onmouseout='clearTime(this)'>Delete Photo</button>
+        </div>
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class=first-"btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="Back">
+          <button type="button" class="first-btn wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class=first-"btn">hidden</button>
+        </div>
+
+      </div>
+
+
+      <div class="album-menu-popup" id="albumMenu">
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class="first-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="add-to-another-album">
+          <button type="button" class="first-btn wiggle">Add to Another Album</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="first-btn">hidden</button>
+        </div>
+
+        <div class="popup-column grow" id="open-album">
+          <button type="button" class="first-btn wiggle" onmouseover='onOpenAlbumHover()' onmouseout='clearTime(this)'>Open Album</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="first-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="delete-album">
+          <button type="button" class="first-btn wiggle"  onmouseover='onDeleteHover()' onmouseout='clearTime(this)'>Delete Album</button>
         </div>
 
         <div class="popup-column" id="hidden">
@@ -394,7 +458,6 @@
           <button type="button" class="second-btn">hidden</button>
         </div>
       </div>
-
 
       <div class="row">
 

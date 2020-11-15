@@ -99,7 +99,7 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 
 /* The popup form - hidden by default */
-.popup {
+.photo-menu-popup {
   display: none;
   position: fixed;
   border: 3px solid #f1f1f1;
@@ -191,6 +191,45 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   margin-left: 30%;
   opacity: 1;
   background-color: black;
+}
+
+.album-menu-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 80%;
+  height: 70%;
+  margin-left: 10%;
+  margin-right: 10%;
+  opacity: 0.8;
+  background-color: white;
+}
+
+.open-button {
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+  border-radius: 0.75em;
+}
+
+.album-button {
+  background-color: gray;
+  color: white;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75em;
 }
 
 @keyframes shake {

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Album</title>
+    <link rel="stylesheet" href="css/fonts.css" />
+    <link rel="stylesheet" href="css/panel-style.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/bootstrap4-toggle.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
+    />
+    <link rel="stylesheet" href="css/foundations.min.css" />
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/socket.io.js"></script>
+    <script src="js/smoothie.js"></script>
+    <script src="js/panel-main.js"></script>
+    <script src="js/bootstrap4-toggle.min.js"></script>
+    <script src="js/three.js"></script>
+    <script type="text/javascript" src="js/amplitude.min.js"></script>
+    <script src="js/control-player.js"></script>
+    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="module">
+        import interact from 'https://cdn.jsdelivr.net/npm/@interactjs/interactjs/index.js';
+
+        var folder = "images/Album";
+
+        var elements = [];
+        var divElements = [];
+        var offsetLeft = 0;
+        var offsetTop = 0;
+        var offsetWidth = 0;
+        var offsetHeight = 0;
+        var offsetRight = 0;
+        var offsetBottom = 0;
+
+        var widthString = 0;
+        var heightString = 0;
+
+        var scaledWidth = 0;
+        var scaledHeight = 0;
+
+        var origin = 0;
+
+        var padding = 100;
+
+        // Get images from folder and add them in rows and columns
+        $(document).ready(function() {
+            $.ajax({
+                url : folder,
+                success: function (data) {
+                    $(data).find("a").attr("href", function (i, val) {
+
+                        if( val.match(/\.(jpe?g)$/) ) {
+                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' alt='" + val +"' style='width:50%' class='images wiggle' id='grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+
+                            var name = val.substring(8);
+                        }
+                    });
+                    callWhag(elements);
+                }
+            });
+        });
+
+        function callWhag(elements) {
+            elements = document.getElementsByClassName("images");
+
+            offsetLeft = elements[0].offsetLeft;
+            offsetTop = elements[0].offsetTop;
+            offsetWidth = elements[0].offsetWidth;
+            offsetHeight = elements[0].offsetHeight;
+            offsetRight = offsetLeft + offsetWidth;
+            offsetBottom = offsetTop + offsetHeight;
+
+            widthString = offsetWidth + "px";
+            heightString = offsetHeight + "px";
+
+            scaledWidth = offsetWidth * 1.5;
+            scaledHeight = offsetHeight * 1.5;
+
+            scaledWidth = scaledWidth + "px";
+            scaledHeight = scaledHeight + "px";
+
+            divElements = document.getElementsByClassName("column");
+        }
+    
+    
+
+    </script>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="top-pane">
+        <div class="col-lg-11" style="padding-top:30px; text-align:left;">
+          Album
+        </div>
+      </div>
+
+      <script>
+
+      	var timeoutId = null;
+      	console.log('here');
+
+        // Return to normal size when leave image
+        function clearTime(x) {
+             window.clearTimeout(timeoutId);
+        }
+
+      	function onBackHover() {
+          timeoutId = window.setTimeout(function(){
+            location.href = '/';
+           }, 1000);
+      }
+
+      </script>
+
+      <div class="row">
+
+      </div>
+
+      <div class="grow open-button">
+      	<button class="album-button wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
+      </div>
+
+    </div>
+  </body>
+</html>
