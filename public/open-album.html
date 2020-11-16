@@ -1,108 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Album</title>
-    <link rel="stylesheet" href="css/fonts.css" />
-    <link rel="stylesheet" href="css/panel-style.css" />
-    <link rel="stylesheet" href="css/animate.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/bootstrap4-toggle.min.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
-    />
-    <link rel="stylesheet" href="css/foundations.min.css" />
+  <title>Album</title>
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/panel-style.css" />
+  <link rel="stylesheet" href="css/animate.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap4-toggle.min.css" />
+  <link
+  rel="stylesheet"
+  href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
+  />
+  <link rel="stylesheet" href="css/foundations.min.css" />
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/socket.io.js"></script>
-    <script src="js/smoothie.js"></script>
-    <script src="js/panel-main.js"></script>
-    <script src="js/bootstrap4-toggle.min.js"></script>
-    <script src="js/three.js"></script>
-    <script type="text/javascript" src="js/amplitude.min.js"></script>
-    <script src="js/control-player.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        var queryString = window.location.search;
-        var folder = queryString.substring(2);
+  <script src="js/jquery.min.js"></script>
+  <script src="js/socket.io.js"></script>
+  <script src="js/smoothie.js"></script>
+  <script src="js/panel-main.js"></script>
+  <script src="js/bootstrap4-toggle.min.js"></script>
+  <script src="js/three.js"></script>
+  <script type="text/javascript" src="js/amplitude.min.js"></script>
+  <script src="js/control-player.js"></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    var queryString = window.location.search;
 
-        var elements = [];
-        var divElements = [];
-        var offsetLeft = 0;
-        var offsetTop = 0;
-        var offsetWidth = 0;
-        var offsetHeight = 0;
-        var offsetRight = 0;
-        var offsetBottom = 0;
+    var folder = queryString.substring(2);
 
-        var widthString = 0;
-        var heightString = 0;
+    // Get images from specific album and add them in rows and columns
+    $(document).ready(function() {
+      $.ajax({
+        url : folder,
+        success: function (data) {
+          $(data).find("a").attr("href", function (i, val) {
 
-        var scaledWidth = 0;
-        var scaledHeight = 0;
-
-        var origin = 0;
-
-        var padding = 100;
-
-        // Get images from folder and add them in rows and columns
-        $(document).ready(function() {
-            $.ajax({
-                url : folder,
-                success: function (data) {
-                    $(data).find("a").attr("href", function (i, val) {
-
-                        if( val.match(/\.(jpe?g)$/) ) {
-                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
-
-                            var name = val.substring(8);
-                        }
-                    });
-                }
-            });
-        });    
-    
-
-    </script>
-  </head>
-
-  <body>
-    <div class="container-fluid">
-      <div class="top-pane">
-        <div class="col-lg-11" style="padding-top:30px; text-align:left;">
-          Open Album
-        </div>
-      </div>
-
-      <script>
-
-      	var timeoutId = null;
-
-        // Return to normal size when leave image
-        function clearTime(x) {
-             window.clearTimeout(timeoutId);
+            if( val.match(/\.(jpe?g)$/) ) {
+              $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images image-border' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+            }
+          });
         }
+      });
+    });    
 
-      	function onBackHover() {
-          timeoutId = window.setTimeout(function(){
-            location.href = '/';
-           }, 1000);
+
+  </script>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="top-pane">
+      <div class="col-lg-11" style="padding-top:30px; text-align:left;">
+        Open Album
+      </div>
+    </div>
+
+    <script>
+
+      var timeoutId = null;
+
+      // Clear time if the user did not hover for 1 second
+      function clearTime(x) {
+        window.clearTimeout(timeoutId);
       }
 
-      </script>
+      // If user hovers over the "Back" button, redirect them to the Main Screen
+      function onBackHover() {
+        timeoutId = window.setTimeout(function(){
+          location.href = '/';
+        }, 1000);
+      }
 
-      <div class="row">
+    </script>
 
-      </div>
+    <!-- Corresponds to the location where the images are being displayed -->
+    <div class="row"></div>
 
-      <div class="grow open-button">
-      	<button class="album-button wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
-      </div>
-
+    <!-- Corresponds to the "Back" button -->
+    <div class="grow back-button">
+      <button class="button wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
     </div>
-  </body>
+
+ </div>
+</body>
 </html>

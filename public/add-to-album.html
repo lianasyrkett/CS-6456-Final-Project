@@ -1,238 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Album</title>
-    <link rel="stylesheet" href="css/fonts.css" />
-    <link rel="stylesheet" href="css/panel-style.css" />
-    <link rel="stylesheet" href="css/animate.css" />
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/bootstrap4-toggle.min.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
-    />
-    <link rel="stylesheet" href="css/foundations.min.css" />
+  <title>Album</title>
+  <link rel="stylesheet" href="css/fonts.css" />
+  <link rel="stylesheet" href="css/panel-style.css" />
+  <link rel="stylesheet" href="css/animate.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/bootstrap4-toggle.min.css" />
+  <link
+  rel="stylesheet"
+  href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css"
+  />
+  <link rel="stylesheet" href="css/foundations.min.css" />
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/socket.io.js"></script>
-    <script src="js/smoothie.js"></script>
-    <script src="js/panel-main.js"></script>
-    <script src="js/bootstrap4-toggle.min.js"></script>
-    <script src="js/three.js"></script>
-    <script type="text/javascript" src="js/amplitude.min.js"></script>
-    <script src="js/control-player.js"></script>
-    <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-        var queryString = window.location.search;
-        var currentAlbum = queryString.substring(1);
+  <script src="js/jquery.min.js"></script>
+  <script src="js/socket.io.js"></script>
+  <script src="js/smoothie.js"></script>
+  <script src="js/panel-main.js"></script>
+  <script src="js/bootstrap4-toggle.min.js"></script>
+  <script src="js/three.js"></script>
+  <script type="text/javascript" src="js/amplitude.min.js"></script>
+  <script src="js/control-player.js"></script>
+  <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+    var queryString = window.location.search;
+    var currentAlbum = queryString.substring(1);
 
-        var folder = "images/";
+    var folder = "images/";
 
-        var elements = [];
-        var divElements = [];
-        var offsetLeft = 0;
-        var offsetTop = 0;
-        var offsetWidth = 0;
-        var offsetHeight = 0;
-        var offsetRight = 0;
-        var offsetBottom = 0;
+    // Get images from folder and add them in rows and columns
+    // Only add albums to this display. Verify that the albums added are not the current album.
+    $(document).ready(function() {
+      $.ajax({
+        url : folder,
+        success: function (data) {
+          $(data).find("a").attr("href", function (i, val) {
 
-        var widthString = 0;
-        var heightString = 0;
-
-        var scaledWidth = 0;
-        var scaledHeight = 0;
-
-        var origin = 0;
-
-        var padding = 100;
-
-        // Get images from folder and add them in rows and columns
-        $(document).ready(function() {
-            $.ajax({
-                url : folder,
-                success: function (data) {
-                    $(data).find("a").attr("href", function (i, val) {
-
-                        if( val.includes("Album") && val != currentAlbum) {
-                            $(".row").append( "<div class='column grow' onmouseover='snap(this)'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images grid-snap'/> </div>" );
-                            var name = val.substring(8);
-                        }
-
-                        if (val == currentAlbum) {
-                          $("body").append( "<div class='column'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images mouse-follower'/> </div>" );
-                            var name = val.substring(8);
-                        }
-                        
-                    });
-                }
-            });
-        });       
-
-    </script>
-  </head>
-
-  <body onmousemove="coordinate(event)">
-    <div class="container-fluid">
-      <div class="top-pane">
-        <div class="col-lg-11" style="padding-top:30px; text-align:left;">
-          Add to Album
-        </div>
-      </div>
-
-      <script>
-
-      	var timeoutId = null;
-        var queryString = window.location.search;
-        var currentAlbum = queryString.substring(1);
-        var x;
-        var y;    
-        var targetAlbum = null;
-
-        // Return to normal size when leave image
-        function clearTime(x) {
-             window.clearTimeout(timeoutId);
-        }
-
-        function onBackHover() {
-          timeoutId = window.setTimeout(function(){
-            location.href = '/';
-           }, 1000);
-        }
-
-        function coordinate(event) {
-
-            // console.log(event);
-
-            var movingAlbum = document.getElementById(currentAlbum);
-
-            if (event) {
-              x = event.pageX;
-              y = event.pageY;
-              movingAlbum.style.top = y + 1 + 'px';
-              movingAlbum.style.left = x + 'px';
-              // console.log('x', movingPicture.offsetLeft);
-              // console.log('y', movingPicture.offsetTop);
+            if( val.includes("Album") && val != currentAlbum) {
+              $(".row").append( "<div class='column grow' onmouseover='snap(this)'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images image-border'/> </div>" );
             }
 
-             // if el2 is within region, translate the element until it snaps to el1
+            if (val == currentAlbum) {
+              $("body").append( "<div class='column'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images mouse-follower'/> </div>" );
+            }
+
+          });
         }
+      });
+    });       
 
-        
+  </script>
+</head>
 
-        function snap(event) {
-          // Value difference between the mouse position and the image positions
-          const diff = 100;
-
-          targetAlbum = event.childNodes[1].id;
-
-          var snapX = x + diff;
-          var snapY = y + diff;
-          console.log('snapX', snapX);
-          console.log('snapY', snapY);
-          console.log('x', x);
-          console.log('y', y);
-
-          var targetRect = event.getBoundingClientRect();
-          var targetLeft = targetRect.left;
-          var targetRight = targetRect.right;
-          var targetTop = targetRect.top;
-          var targetBottom = targetRect.bottom;
-
-          console.log('target left', targetLeft);
-          console.log('target top', targetTop);
-          console.log('target right', targetRight);
-          console.log('target bottom', targetBottom);
-
-
-          var movingAlbum = document.getElementById(currentAlbum);
-
-          // If mouse is on right side of target
-          if ((snapX >= targetLeft) && (snapX >= targetRight) && (y >= targetTop) && (y <= targetBottom)) {
-            var body = document.getElementsByTagName("BODY")[0];
-            body.onmousemove = null;
-
-            movingAlbum.style.left = targetRight - diff + 'px';
-            movingAlbum.style.top = targetTop + diff + 'px';
-
-            window.setTimeout(function(){
-            document.getElementById("createMenu").style.display = "block";
-           }, 500);
-          }
-
-          // If mouse is on bottom side of target
-          if ((x >= targetLeft) && (x <= targetRight) && (snapY >= targetTop) && (snapY >= targetBottom)) {
-            var body = document.getElementsByTagName("BODY")[0];
-            body.onmousemove = null;
-
-            movingAlbum.style.left = targetLeft + diff + 'px';
-            movingAlbum.style.top = targetBottom - diff + 'px';
-            
-            window.setTimeout(function(){
-            document.getElementById("createMenu").style.display = "block";
-           }, 500);
-          }
-          
-        }
-
-        function onAddToAlbumHover() {
-            timeoutId = window.setTimeout(function(){
-            location.href = '/?currentAlbum=' + currentAlbum + '&targetAlbum=' + targetAlbum;
-           }, 1000);
-        }    
-
-        function onCreateBackHover() {
-          timeoutId = window.setTimeout(function(){
-            document.getElementById("createMenu").style.display = "none";
-           }, 1000);
-        }        
-
-      </script>
-
-      <div class="create-album-popup" id="createMenu">
-        <div class="popup-column" id="hidden">
-          <button type="button" class="second-btn">hidden</button>
-        </div>
-        <div class="popup-column grow" id="confirm-deletion">
-          <button type="button" class="first-btn wiggle" onmouseover='onAddToAlbumHover()' onmouseout='clearTime(this)'>Create Album</button>
-        </div>
-        <div class="popup-column" id="hidden">
-          <button type="button" class="second-btn">hidden</button>
-        </div>
-
-        <div class="popup-column grow" id="hidden">
-          <button type="button" class="second-btn wiggle">hidden</button>
-        </div>
-        <div class="popup-column" id="hidden">
-          <button type="button" class="second-btn">hidden</button>
-        </div>
-        <div class="popup-column grow" id="hidden">
-          <button type="button" class="second-btn wiggle">hidden</button>
-        </div>
-
-        <div class="popup-column" id="hidden">
-          <button type="button" class="second-btn">hidden</button>
-        </div>
-        <div class="popup-column grow" id="Back">
-          <button type="button" class="first-btn wiggle" onmouseover='onCreateBackHover()' onmouseout='clearTime(this)'>Back</button>
-        </div>
-        <div class="popup-column" id="hidden">
-          <button type="button" class="second-btn">hidden</button>
-        </div>
+<body onmousemove="coordinate(event)">
+  <div class="container-fluid">
+    <div class="top-pane">
+      <div class="col-lg-11" style="padding-top:30px; text-align:left;">
+        Add to Album
       </div>
-
-      <div class="grow open-button">
-        <button class="album-button wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
-      </div>
-
-      <div class="row">
-
-      </div>
-
     </div>
-  </body>
+
+    <script>
+
+      var timeoutId = null;
+      var queryString = window.location.search;
+      var currentAlbum = queryString.substring(1);
+      var x;
+      var y;    
+      var targetAlbum = null;
+
+      // Clear time if the user did not hover for 1 second
+      function clearTime(x) {
+        window.clearTimeout(timeoutId);
+      }
+
+      // If user hovers over the "Back" button, redirect them to the Main Screen
+      function onBackHover() {
+        timeoutId = window.setTimeout(function(){
+          location.href = '/';
+        }, 1000);
+      }
+
+      // For each mouse move, get the x and y coordinates and move the current image with it
+      // Source: https://medium.com/@amieeverett/how-to-make-your-cursor-into-an-image-using-javascript-83e2efeca0ef
+      // Source: https://www.geeksforgeeks.org/javascript-coordinates-of-mouse/
+      function coordinate(event) {
+        var movingAlbum = document.getElementById(currentAlbum);
+
+        if (event) {
+          x = event.pageX;
+          y = event.pageY;
+          movingAlbum.style.top = y + 1 + 'px';
+          movingAlbum.style.left = x + 'px';
+        }
+
+      }
+
+      // If the mouse comes close to the right side of an object, snap the current object to the top right corner of the target.
+      // If the mouse comes close the the bottom of an object, snap the current object to the bottom left corner of the target.
+      // The Add to Album menu will appear half a second afer the snap occurs.
+      function snap(event) {
+        // Value difference between the mouse position and the image positions
+        const diff = 100;
+
+        targetAlbum = event.childNodes[1].id;
+
+        var snapX = x + diff;
+        var snapY = y + diff;
+
+        var targetRect = event.getBoundingClientRect();
+        var targetLeft = targetRect.left;
+        var targetRight = targetRect.right;
+        var targetTop = targetRect.top;
+        var targetBottom = targetRect.bottom;
+
+        var movingAlbum = document.getElementById(currentAlbum);
+
+        // If mouse is on right side of target
+        if ((snapX >= targetLeft) && (snapX >= targetRight) && (y >= targetTop) && (y <= targetBottom)) {
+          var body = document.getElementsByTagName("BODY")[0];
+          body.onmousemove = null;
+
+          movingAlbum.style.left = targetRight - diff + 'px';
+          movingAlbum.style.top = targetTop + diff + 'px';
+
+          window.setTimeout(function(){
+            document.getElementById("createMenu").style.display = "block";
+          }, 500);
+        }
+
+        // If mouse is on bottom side of target
+        if ((x >= targetLeft) && (x <= targetRight) && (snapY >= targetTop) && (snapY >= targetBottom)) {
+          var body = document.getElementsByTagName("BODY")[0];
+          body.onmousemove = null;
+
+          movingAlbum.style.left = targetLeft + diff + 'px';
+          movingAlbum.style.top = targetBottom - diff + 'px';
+          
+          window.setTimeout(function(){
+            document.getElementById("createMenu").style.display = "block";
+          }, 500);
+        }    
+      }
+
+      // In the Add to Album menu, if the user hovers over the "Add to Album" button, the user will be redirected to a main screen to display the newly combined albums as a single album
+      function onAddToAlbumHover() {
+        timeoutId = window.setTimeout(function(){
+          location.href = '/?currentAlbum=' + currentAlbum + '&targetAlbum=' + targetAlbum;
+        }, 1000);
+      }    
+
+      // In the Add to Album menu, if the user hovers over the "Back" button, the menu will disappear
+      function onAddBackHover() {
+        timeoutId = window.setTimeout(function(){
+          document.getElementById("createMenu").style.display = "none";
+        }, 1000);
+      }        
+
+    </script>
+
+    <!-- Corresponds to the Add to Album Menu that appears when a user hovers over a photo on the main screen. Initially hidden. -->
+    <div class="create-album-popup" id="createMenu">
+      <div class="popup-column" id="hidden">
+        <button type="button" class="second-btn">hidden</button>
+      </div>
+      <div class="popup-column grow" id="confirm-deletion">
+        <button type="button" class="first-btn wiggle" onmouseover='onAddToAlbumHover()' onmouseout='clearTime(this)'>Create Album</button>
+      </div>
+      <div class="popup-column" id="hidden">
+        <button type="button" class="second-btn">hidden</button>
+      </div>
+
+      <div class="popup-column grow" id="hidden">
+        <button type="button" class="second-btn wiggle">hidden</button>
+      </div>
+      <div class="popup-column" id="hidden">
+        <button type="button" class="second-btn">hidden</button>
+      </div>
+      <div class="popup-column grow" id="hidden">
+        <button type="button" class="second-btn wiggle">hidden</button>
+      </div>
+
+      <div class="popup-column" id="hidden">
+        <button type="button" class="second-btn">hidden</button>
+      </div>
+      <div class="popup-column grow" id="Back">
+        <button type="button" class="first-btn wiggle" onmouseover='onAddBackHover()' onmouseout='clearTime(this)'>Back</button>
+      </div>
+      <div class="popup-column" id="hidden">
+        <button type="button" class="second-btn">hidden</button>
+      </div>
+    </div>
+
+    <!-- Corresponds to the location where the images are being displayed -->
+    <div class="row"></div>
+
+    <!-- Corresponds to the "Back" button -->
+    <div class="grow back-button">
+      <button class="button wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
+    </div>
+
+  </div>
+</body>
 </html>

@@ -24,9 +24,6 @@ app.use("/images", express.static(path.join(__dirname, "/images")));
 
 var fs = require('fs');
 
-var interactjs = require('interactjs');
-
-
 app.get("/", function (req, res) {
 	res.sendFile(path.join(__dirname, '/public', 'index.html'));
 });

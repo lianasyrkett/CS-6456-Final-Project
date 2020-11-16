@@ -15,71 +15,39 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 	font-weight: lighter;
 }
 
-/* Custom */
-
-#recording-title {
-	color: white;
-	display: inline-block;
-	margin-top: 2rem;
-	margin-left: 2rem;
-	margin-bottom: 0.5rem;
+/*
+Formatting the images in rows and columns.
+Three image containers (use 25% for four, and 50% for two, etc)
+Source: https://www.w3schools.com/howto/howto_css_images_side_by_side.asp
+*/
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 100px;
 }
 
-#save-button {
-	text-align: center;
-	width: 4rem;
-	background-color: white;
-	margin-left: 1.5rem;
-	display: inline-block;
-}
-
-#save-button:hover {
-	cursor: pointer;
-	background-color: lightgray;
-}
-
-#gesture-name-input {
-	margin-left: 2rem;
-	display: inline-block;
-}
-
-#game-canvas {
-	margin-top: 2rem;
-	margin-left: 2rem;
-	width: 640px;
-	height: 480px;
+/* Clear floats after image containers */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
 }
 
 
-.dateThing {
-    padding: 10px;
-    margin: 20px;
-    float: left;
-    border: 1px solid #ccc;
-}
-
-.door {
-    background: #cea;
-}
-.doorstatic {
-    background: #fea;
-}
-
-#someelem
-    {
-    cursor: pointer;display:block;
-    padding:40px;width:600px;height:600px;
-    color: white
-    }
-
+/*When you hover over an image, grow it to its full size*/
 .grow:hover img{
     min-height: 100%;
     min-width: 100%;
 }
 
+.grow:hover button{
+    min-height: 100%;
+    min-width: 100%;
+}
 
 
-.grid-snap {
+/*Format picture size and border*/
+.image-border {
   width: 40%;
   border-radius: 4px;
   padding: 2%;
@@ -103,6 +71,10 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 }
 
+/*
+When hover over an image, the image will wiggle
+Source: https://www.w3schools.com/howto/howto_css_shake_image.asp
+*/
 .wiggle:hover {
   animation: shake 1s;
 
@@ -110,8 +82,25 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 }
 
+@keyframes shake {
+  0% { transform: scale(2) translate(1px, 1px) rotate(0deg); }
+  10% { transform: scale(2) translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: scale(2) translate(-3px, 0px) rotate(1deg); }
+  30% { transform: scale(2) translate(3px, 2px) rotate(0deg); }
+  40% { transform: scale(2) translate(1px, -1px) rotate(1deg); }
+  50% { transform: scale(2) translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: scale(2) translate(-3px, 1px) rotate(0deg); }
+  70% { transform: scale(2) translate(3px, 1px) rotate(-1deg); }
+  80% { transform: scale(2) translate(-1px, -1px) rotate(1deg); }
+  90% { transform: scale(2) translate(1px, 2px) rotate(0deg); }
+  100% { transform: scale(2) translate(1px, -2px) rotate(-1deg); }
+}
 
-/* The popup form - hidden by default */
+
+/*
+Menus that appear when you hover over an album or photo on the initial screen
+Source: https://www.w3schools.com/howto/howto_js_popup_form.asp
+*/
 .photo-menu-popup {
   display: none;
   position: fixed;
@@ -125,8 +114,32 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   background-color: white;
 }
 
+.album-menu-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 80%;
+  height: 70%;
+  margin-left: 10%;
+  margin-right: 10%;
+  opacity: 0.8;
+  background-color: white;
+}
 
-/* Set a style for the submit/login button */
+/*Format the menu buttons in the correct location. */
+.popup-column {
+  float: left;
+  width: 33.33%;
+  padding: 50px;
+}
+
+
+/*
+First button corresponds to the first menu of the screen.
+Second button corresponds to the second menu screen (ex: deletion confirmation screen).
+Hidden buttons are not shown on the screen, but are there to help with formatting.
+*/
 .popup-column .first-btn {
   background-color: black;
   color: white;
@@ -138,31 +151,6 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   align-items: center;
   justify-content: center;
   border-radius: 0.75em;
-}
-
-.popup-column {
-  float: left;
-  width: 33.33%;
-  padding: 50px;
-}
-
-.grow:hover button{
-    min-height: 100%;
-    min-width: 100%;
-}
-
-/* The popup form - hidden by default */
-.delete-popup {
-  display: none;
-  position: fixed;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-  width: 80%;
-  height: 70%;
-  margin-left: 10%;
-  margin-right: 10%;
-  opacity: 1;
-  background-color: black;
 }
 
 .popup-column .second-btn {
@@ -182,7 +170,23 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   opacity: 0;
 }
 
-/* The popup form - hidden by default */
+
+/*Corresponds with the delete confirmation menu.*/
+.delete-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 80%;
+  height: 70%;
+  margin-left: 10%;
+  margin-right: 10%;
+  opacity: 1;
+  background-color: black;
+}
+
+
+/*Corresponds with the open photo display.*/
 .photo-popup {
   display: none;
   position: fixed;
@@ -206,45 +210,8 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   background-color: black;
 }
 
-.album-menu-popup {
-  display: none;
-  position: fixed;
-  border: 3px solid #f1f1f1;
-  z-index: 9;
-  width: 80%;
-  height: 70%;
-  margin-left: 10%;
-  margin-right: 10%;
-  opacity: 0.8;
-  background-color: white;
-}
 
-.open-button {
-  color: white;
-  padding: 16px 20px;
-  border: none;
-  cursor: pointer;
-  opacity: 0.8;
-  position: fixed;
-  bottom: 23px;
-  right: 28px;
-  width: 280px;
-  border-radius: 0.75em;
-}
-
-.album-button {
-  background-color: gray;
-  color: white;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  padding: 20px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.75em;
-}
-
+/*Corresponds with the create album menu.*/
 .create-album-popup {
   display: none;
   position: fixed;
@@ -259,8 +226,39 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   background-color: white;
 }
 
-* {box-sizing: border-box;}
 
+/*Corresponds with the Back button displayed at the bottom of the non-main screens.*/
+.back-button {
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 280px;
+  border-radius: 0.75em;
+}
+
+.button {
+  background-color: gray;
+  color: white;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  padding: 20px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75em;
+}
+
+
+/*Corresponds with the magnifying glass.*/
+* {
+    box-sizing: border-box;
+}
 
 .img-magnifier-glass {
   position: absolute;
@@ -268,73 +266,10 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border-radius: 50%;
   cursor: none;
   /*Set the size of the magnifier glass:*/
-  width: 100px;
-  height: 100px;
-  }
-
-
-@keyframes shake {
-  0% { transform: scale(2) translate(1px, 1px) rotate(0deg); }
-  10% { transform: scale(2) translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: scale(2) translate(-3px, 0px) rotate(1deg); }
-  30% { transform: scale(2) translate(3px, 2px) rotate(0deg); }
-  40% { transform: scale(2) translate(1px, -1px) rotate(1deg); }
-  50% { transform: scale(2) translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: scale(2) translate(-3px, 1px) rotate(0deg); }
-  70% { transform: scale(2) translate(3px, 1px) rotate(-1deg); }
-  80% { transform: scale(2) translate(-1px, -1px) rotate(1deg); }
-  90% { transform: scale(2) translate(1px, 2px) rotate(0deg); }
-  100% { transform: scale(2) translate(1px, -2px) rotate(-1deg); }
+  width: 200px;
+  height: 200px;
 }
 
-.tooltip
-    {
-    display: block;
-    position: absolute;
-    background-color: rgb(130, 150, 200);
-    padding: 5px;
-    }
-
-.draggable {
-  min-height: 6.5em;
-  margin: 1rem 0 0 1rem;
-  background-color: #29e;
-  color: white;
-  border-radius: 0.75em;
-  touch-action: none;
-  user-select: none;
-  -webkit-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
-}
-/* Three image containers (use 25% for four, and 50% for two, etc) */
-.column {
-  float: left;
-  width: 33.33%;
-  padding: 100px;
-}
-
-/* Clear floats after image containers */
-.row::after {
-  content: "";
-  clear: both;
-  display: table;
-}
-
-#thumbs {
-    width: 940px;
-    margin-left: auto;
-    margin-right: auto;
-
-     text-align: justify;
-    -ms-text-justify: distribute-all-lines;
-    text-justify: distribute-all-lines;
-}
-#thumbs a {
-    vertical-align: top;
-    display: inline-block;
-    *display: inline;
-    zoom: 1;
-}
 
 .stretch {
     width: 100%;
