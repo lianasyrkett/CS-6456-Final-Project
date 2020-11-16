@@ -62,7 +62,7 @@
                     $(data).find("a").attr("href", function (i, val) {
 
                         if( val.match(/\.(jpe?g)$/) && val != currentPicture ) {
-                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images grid-snap'/> </div>" );
+                            $(".row").append( "<div class='column grow' onmouseover='snap(this)'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images grid-snap'/> </div>" );
                            
                             var name = val.substring(8);
                         }
@@ -84,7 +84,7 @@
     <div class="container-fluid">
       <div class="top-pane">
         <div class="col-lg-11" style="padding-top:30px; text-align:left;">
-          Album
+          Create an Album
         </div>
       </div>
 
@@ -93,6 +93,9 @@
       	var timeoutId = null;
         var queryString = window.location.search;
         var currentPicture = queryString.substring(1);
+        var x;
+        var y;    
+        var targetPicture = null;
 
         // Return to normal size when leave image
         function clearTime(x) {
@@ -107,28 +110,131 @@
 
         function coordinate(event) {
 
-            const movingPicture = document.getElementById(currentPicture);
-            var x;
-            var y;
+            // console.log(event);
+
+            var movingPicture = document.getElementById(currentPicture);
 
             if (event) {
               x = event.pageX;
               y = event.pageY;
               movingPicture.style.top = y + 1 + 'px';
               movingPicture.style.left = x + 'px';
+              // console.log('x', movingPicture.offsetLeft);
+              // console.log('y', movingPicture.offsetTop);
             }
 
              // if el2 is within region, translate the element until it snaps to el1
         }
 
+        
+
+        function snap(event) {
+          // Value difference between the mouse position and the image positions
+          const diff = 100;
+
+          targetPicture = event.childNodes[1].id;
+
+          var snapX = x + diff;
+          var snapY = y + diff;
+          console.log('snapX', snapX);
+          console.log('snapY', snapY);
+          console.log('x', x);
+          console.log('y', y);
+
+          var targetRect = event.getBoundingClientRect();
+          var targetLeft = targetRect.left;
+          var targetRight = targetRect.right;
+          var targetTop = targetRect.top;
+          var targetBottom = targetRect.bottom;
+
+          console.log('target left', targetLeft);
+          console.log('target top', targetTop);
+          console.log('target right', targetRight);
+          console.log('target bottom', targetBottom);
+
+
+          var movingPicture = document.getElementById(currentPicture);
+
+          // If mouse is on right side of target
+          if ((snapX >= targetLeft) && (snapX >= targetRight) && (y >= targetTop) && (y <= targetBottom)) {
+            var body = document.getElementsByTagName("BODY")[0];
+            body.onmousemove = null;
+
+            movingPicture.style.left = targetRight - diff + 'px';
+            movingPicture.style.top = targetTop + diff + 'px';
+
+            window.setTimeout(function(){
+            document.getElementById("createMenu").style.display = "block";
+           }, 1000);
+          }
+
+          // If mouse is on bottom side of target
+          if ((x >= targetLeft) && (x <= targetRight) && (snapY >= targetTop) && (snapY >= targetBottom)) {
+            var body = document.getElementsByTagName("BODY")[0];
+            body.onmousemove = null;
+
+            movingPicture.style.left = targetLeft + diff + 'px';
+            movingPicture.style.top = targetBottom - diff + 'px';
+            
+            window.setTimeout(function(){
+            document.getElementById("createMenu").style.display = "block";
+           }, 500);
+          }
+          
+        }
+
+        function onCreateAlbumHover() {
+            timeoutId = window.setTimeout(function(){
+            location.href = '/?currentPicture=' + currentPicture + '&targetPicture=' + targetPicture;
+           }, 1000);
+        }    
+
+        function onCreateBackHover() {
+          timeoutId = window.setTimeout(function(){
+            document.getElementById("createMenu").style.display = "none";
+           }, 500);
+        }
+
       </script>
 
-      <div class="row">
+      <div class="create-album-popup" id="createMenu">
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="confirm-deletion">
+          <button type="button" class="first-btn wiggle" onmouseover='onCreateAlbumHover()' onmouseout='clearTime(this)'>Create Album</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
 
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="hidden">
+          <button type="button" class="second-btn wiggle">hidden</button>
+        </div>
+
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
+        <div class="popup-column grow" id="Back">
+          <button type="button" class="first-btn wiggle" onmouseover='onCreateBackHover()' onmouseout='clearTime(this)'>Back</button>
+        </div>
+        <div class="popup-column" id="hidden">
+          <button type="button" class="second-btn">hidden</button>
+        </div>
       </div>
 
       <div class="grow open-button">
       	<button class="album-button wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
+      </div>
+
+      <div class="row">
+
       </div>
 
     </div>

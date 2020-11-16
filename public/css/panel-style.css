@@ -91,9 +91,9 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .mouse-follower {
-  max-width: 15%;
+  max-width: 7%;
   border-radius: 4px;
-  padding: 2%;
+  padding: .5%;
   margin: 1rem 0 0 1rem;
   background-color: #B0FFAD;
   color: #fff;
@@ -244,6 +244,21 @@ body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   justify-content: center;
   border-radius: 0.75em;
 }
+
+.create-album-popup {
+  display: none;
+  position: fixed;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  width: 80%;
+  height: 70%;
+  margin-top: 10px;
+  margin-left: 10%;
+  margin-right: 10%;
+  opacity: 0.8;
+  background-color: white;
+}
+
 
 @keyframes shake {
   0% { transform: scale(2) translate(1px, 1px) rotate(0deg); }

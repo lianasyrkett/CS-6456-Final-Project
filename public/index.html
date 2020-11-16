@@ -56,16 +56,41 @@
                 url : folder,
                 success: function (data) {
                     $(data).find("a").attr("href", function (i, val) {
-                        console.log(val);
-                        if( val.match(/\.(jpe?g)$/) ) {
+
+                        var queryString = window.location.search;
+
+                        if (queryString) {
+                          queryString = queryString.split("&");
+
+                          var firstEntry = queryString[0].split("=");
+                          
+                          firstEntry[0] = firstEntry[0].substring(1);
+                          var secondEntry = queryString[1].split("=");
+
+                          if (firstEntry[0].includes("Picture")) {
+                            var firstImage = firstEntry[1];
+                            var secondImage = secondEntry[1];
+
+                            if( val.match(/\.(jpe?g)$/) && val != firstImage && val != secondImage) {
                             $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
                             var name = val.substring(8);
-                        }
+                            } else if( val.includes("Album") || val == firstImage) {
+                                $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                                var name = val.substring(8);
+                            }
+                          }
 
-                        if( val.includes("Album") ) {
-                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                          
+                        } else {
+                            if( val.match(/\.(jpe?g)$/) ) {
+                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
                             var name = val.substring(8);
+                            } else if( val.includes("Album") ) {
+                                $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                                var name = val.substring(8);
+                            }
                         }
+                        
                     });
                     callWhag(elements);
                 }
@@ -74,7 +99,6 @@
 
         function callWhag(elements) {
             elements = document.getElementsByClassName("images");
-            console.log(elements);
 
             offsetLeft = elements[0].offsetLeft;
             offsetTop = elements[0].offsetTop;

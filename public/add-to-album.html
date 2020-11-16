@@ -61,7 +61,7 @@
                     $(data).find("a").attr("href", function (i, val) {
 
                         if( val.includes("Album") && val != currentAlbum) {
-                            $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images grid-snap'/> </div>" );
+                            $(".row").append( "<div class='column grow' onmouseover='snap(this)'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images grid-snap'/> </div>" );
                             var name = val.substring(8);
                         }
 
@@ -82,7 +82,7 @@
     <div class="container-fluid">
       <div class="top-pane">
         <div class="col-lg-11" style="padding-top:30px; text-align:left;">
-          Album
+          Add to Album
         </div>
       </div>
 
@@ -106,8 +106,6 @@
         function coordinate(event) {
 
             const movingAlbum = document.getElementById(currentAlbum);
-            console.log('first x', movingAlbum.offsetLeft);
-            console.log('first y', movingAlbum.offsetTop);
             var x;
             var y;
 
@@ -116,11 +114,17 @@
               y = event.pageY;
               movingAlbum.style.top = y + 1 + 'px';
               movingAlbum.style.left = x + 'px';
-              console.log('second x', movingAlbum.offsetLeft);
-              console.log('second y', movingAlbum.offsetTop);
+              console.log('x', movingAlbum.offsetLeft);
+              console.log('y', movingAlbum.offsetTop);
             }
 
              // if el2 is within region, translate the element until it snaps to el1
+        }
+
+        function snap(event) {
+          console.log(event);
+          console.log(event.offsetLeft);
+          console.log(event.offsetTop);
         }           
 
       </script>
@@ -129,8 +133,8 @@
 
       </div>
 
-      <div class="grow open-button">
-      	<button class="album-button wiggle" onmouseover='onBackHover()' onmouseout='clearTime(this)'>Back</button>
+      <div class="grow open-button" onmouseover='snap(this)'>
+      	<button class="album-button" onmouseout='clearTime(this)'>Back</button>
       </div>
 
     </div>
