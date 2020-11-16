@@ -26,9 +26,7 @@
     <script type="text/javascript" src="js/amplitude.min.js"></script>
     <script src="js/control-player.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="module">
-        import interact from 'https://cdn.jsdelivr.net/npm/@interactjs/interactjs/index.js';
-
+    <script>
         var folder = "images/";
 
         var elements = [];
@@ -152,89 +150,60 @@
              // if el2 is within region, translate the element until it snaps to el1
           }
 
-      
-    
-
-        // target elements with the "draggable" class
-        interact('.draggable')
-          .draggable({
-            // enable inertial throwing
-            inertia: true,
-            // keep the element within the area of it's parent
-            modifiers: [
-              interact.modifiers.restrictRect({
-                restriction: 'parent',
-                endOnly: true
-              })
-            ],
-            // enable autoScroll
-            autoScroll: true,
-
-            listeners: {
-              // call this function on every dragmove event
-              move: dragMoveListener,
-
-              // call this function on every dragend event
-              end (event) {
-                var textEl = event.target.querySelector('p')
-
-                textEl && (textEl.textContent =
-                  'moved a distance of ' +
-                  (Math.sqrt(Math.pow(event.pageX - event.x0, 2) +
-                             Math.pow(event.pageY - event.y0, 2) | 0))
-                    .toFixed(2) + 'px')
-              }
+          function magnify(imgID, zoom) {
+            var img, glass, w, h, bw;
+            img = document.getElementById(imgID);
+            /*create magnifier glass:*/
+            glass = document.createElement("DIV");
+            glass.setAttribute("class", "img-magnifier-glass");
+            /*insert magnifier glass:*/
+            img.parentElement.insertBefore(glass, img);
+            /*set background properties for the magnifier glass:*/
+            glass.style.backgroundImage = "url('" + img.src + "')";
+            glass.style.backgroundRepeat = "no-repeat";
+            glass.style.backgroundSize = (img.width * zoom) + "px " + (img.height * zoom) + "px";
+            bw = 3;
+            w = glass.offsetWidth / 2;
+            h = glass.offsetHeight / 2;
+            /*execute a function when someone moves the magnifier glass over the image:*/
+            glass.addEventListener("mousemove", moveMagnifier);
+            img.addEventListener("mousemove", moveMagnifier);
+            /*and also for touch screens:*/
+            glass.addEventListener("touchmove", moveMagnifier);
+            img.addEventListener("touchmove", moveMagnifier);
+            function moveMagnifier(e) {
+              var pos, x, y;
+              /*prevent any other actions that may occur when moving over the image*/
+              e.preventDefault();
+              /*get the cursor's x and y positions:*/
+              pos = getCursorPos(e);
+              x = pos.x;
+              y = pos.y;
+              /*prevent the magnifier glass from being positioned outside the image:*/
+              if (x > img.width - (w / zoom)) {x = img.width - (w / zoom);}
+              if (x < w / zoom) {x = w / zoom;}
+              if (y > img.height - (h / zoom)) {y = img.height - (h / zoom);}
+              if (y < h / zoom) {y = h / zoom;}
+              /*set the position of the magnifier glass:*/
+              glass.style.left = (x - w) + "px";
+              glass.style.top = (y - h) + "px";
+              /*display what the magnifier glass "sees":*/
+              glass.style.backgroundPosition = "-" + ((x * zoom) - w + bw) + "px -" + ((y * zoom) - h + bw) + "px";
             }
-          })
-
-        function dragMoveListener (event) {
-          var target = event.target
-          // keep the dragged position in the data-x/data-y attributes
-          var x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx
-          var y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy
-
-          // translate the element
-          target.style.webkitTransform =
-            target.style.transform =
-              'translate(' + x + 'px, ' + y + 'px)'
-
-          // update the posiion attributes
-          target.setAttribute('data-x', x)
-          target.setAttribute('data-y', y)
-        }
-
-        // this function is used later in the resizing and gesture demos
-        window.dragMoveListener = dragMoveListener
-
-        var example = document.getElementById('grid-snap')
-        var x = 0; var y = 0
-
-        interact(example)
-          .draggable({
-            modifiers: [
-              interact.modifiers.snap({
-                targets: [
-                  interact.createSnapGrid({ x: 30, y: 30 })
-                ],
-                range: Infinity,
-                relativePoints: [ { x: 0, y: 0 } ]
-              }),
-              interact.modifiers.restrict({
-                restriction: example.parentNode,
-                elementRect: { top: 0, left: 0, bottom: 1, right: 1 },
-                endOnly: true
-              })
-            ],
-            inertia: true
-          })
-          .on('dragmove', function (event) {
-            x += event.dx
-            y += event.dy
-
-            event.target.style.webkitTransform =
-            event.target.style.transform =
-                'translate(' + x + 'px, ' + y + 'px)'
-          })
+            function getCursorPos(e) {
+              var a, x = 0, y = 0;
+              e = e || window.event;
+              /*get the x and y positions of the image:*/
+              a = img.getBoundingClientRect();
+              /*calculate the cursor's x and y coordinates, relative to the image:*/
+              x = e.pageX - a.left;
+              y = e.pageY - a.top;
+              /*consider any page scrolling:*/
+              x = x - window.pageXOffset;
+              y = y - window.pageYOffset;
+              return {x : x, y : y};
+            }
+          }
 
     </script>
   </head>
@@ -308,13 +277,14 @@
             copiedImage.classList.remove("wiggle");  
 
             var displayImage = document.createElement("div");
-            displayImage.setAttribute("class", "large-photo-popup");
+            displayImage.setAttribute("class", "large-photo-popup img-magnifier-container");
             displayImage.setAttribute("id", "open-photo-display");
 
-
             displayImage.appendChild(copiedImage);
-
             currentDiv.appendChild(displayImage);
+
+
+            magnify(copiedImage.id, 2);
            }, 1000);
         }
 
@@ -348,11 +318,6 @@
         }
 
       </script>
-
-<!-- 
-      <div id="grid-snap" onmouseover='onHover(this)'>
-        Dragging is constrained to the corners of a grid
-      </div>   -->
 
       <div class="photo-menu-popup" id="photoMenu">
 

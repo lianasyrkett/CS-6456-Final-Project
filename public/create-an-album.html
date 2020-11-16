@@ -26,8 +26,7 @@
     <script type="text/javascript" src="js/amplitude.min.js"></script>
     <script src="js/control-player.js"></script>
     <script src = "https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script type="module">
-        import interact from 'https://cdn.jsdelivr.net/npm/@interactjs/interactjs/index.js';
+    <script>
 
         var queryString = window.location.search;
         var currentPicture = queryString.substring(1);
@@ -165,7 +164,7 @@
 
             window.setTimeout(function(){
             document.getElementById("createMenu").style.display = "block";
-           }, 1000);
+           }, 500);
           }
 
           // If mouse is on bottom side of target
@@ -192,7 +191,7 @@
         function onCreateBackHover() {
           timeoutId = window.setTimeout(function(){
             document.getElementById("createMenu").style.display = "none";
-           }, 500);
+           }, 1000);
         }
 
       </script>
