@@ -77,7 +77,20 @@
                             } else if( val.includes("Album") || val == firstImage) {
                                 $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
                                 var name = val.substring(8);
-                            }
+                            } 
+                          }
+
+                          if (firstEntry[0].includes("Album")) {
+                            var firstAlbum = firstEntry[1];
+                            var secondAlbum = secondEntry[1];
+
+                            if( val.match(/\.(jpe?g)$/)) {
+                            $(".row").append( "<div class='column grow'> <img src='.." + val +"' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                            var name = val.substring(8);
+                            } else if( val.includes("Album") && val != firstAlbum) {
+                                $(".row").append( "<div class='column grow'> <img src='../images/Folder-Icon.png' id='" + val +"' style='width:50%' class='images wiggle grid-snap' onmouseover='onHover(this)' onmouseout='clearTime(this)'/> </div>" );
+                                var name = val.substring(8);
+                            } 
                           }
 
                           
