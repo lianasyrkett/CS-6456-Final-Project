@@ -1,5 +1,5 @@
-# eSense Data Visualiser
-A node.js app to visualise and configure [eSense](http://www.esense.io) sensory streams in real-time. 
+# eSense Photo Album
+A node.js app to combine [eSense](http://www.esense.io) with a photo album UI. 
 
 ## Requirements
 At the moment only macOS is supported and specific versions of node.js and npm are required:
